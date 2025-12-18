@@ -1,4 +1,4 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.*;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class DailySymptomLogServiceImpl implements DailySymptomLogService {
+public class DailySymptomLogService implements DailySymptomLogService {
 
     private final DailySymptomLogRepository logRepository;
     private final PatientProfileRepository patientRepository;
