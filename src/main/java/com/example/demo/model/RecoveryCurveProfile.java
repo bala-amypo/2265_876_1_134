@@ -4,16 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(
-    name = "recovery_curve_profile",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"surgeryType", "dayNumber"})
-    }
-)
 public class RecoveryCurveProfile {
 
     @Id
@@ -21,12 +16,8 @@ public class RecoveryCurveProfile {
     private Long id;
 
     private String surgeryType;
-
     private Integer dayNumber;
-
     private Integer expectedPainLevel;
-
     private Integer expectedMobilityLevel;
-
     private Integer expectedFatigueLevel;
 }

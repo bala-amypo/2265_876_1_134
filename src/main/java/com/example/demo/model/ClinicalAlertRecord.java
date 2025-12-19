@@ -3,29 +3,23 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "clinical_alert")
-public class ClinicalAlert {
+public class ClinicalAlertRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "patient_id")
-    private PatientProfile patient;
-
-    private LocalDate alertDate;
-
-    private String severity; // LOW / MEDIUM / HIGH
-
+    private Long patientId;
+    private Long logId;
+    private String alertType;
+    private String severity;
     private String message;
 
-    private Boolean resolved;
+    private Boolean resolved = false;
 }
