@@ -4,25 +4,25 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
+@Table(name = "app_users")
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(
-    name = "app_user",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "email")
-    }
-)
 public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
 
-    private String role;
+    private String fullName;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 }
