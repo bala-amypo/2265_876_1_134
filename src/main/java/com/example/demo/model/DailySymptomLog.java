@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,10 +17,13 @@ public class DailySymptomLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long patientId;
+    @ManyToOne
+    private PatientProfile patient;
+
     private LocalDate logDate;
     private Integer painLevel;
     private Integer mobilityLevel;
     private Integer fatigueLevel;
-    private String additionalNotes;
+    private String notes;
+    private LocalDateTime submittedAt;
 }
