@@ -1,24 +1,10 @@
-package com.example.demo.controller;
+package com.example.demo.dto;
 
-import com.example.demo.dto.*;
-import com.example.demo.service.AuthService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import lombok.Data;
 
-@RestController
-@RequestMapping("/auth")
-@RequiredArgsConstructor
-public class AuthController {
+@Data
+public class AuthRequest {
 
-    private final AuthService authService;
-
-    @PostMapping("/register")
-    public AuthResponse register(@RequestBody RegisterRequest request) {
-        return authService.register(request);
-    }
-
-    @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest request) {
-        return authService.login(request);
-    }
+    private String email;
+    private String password;
 }
