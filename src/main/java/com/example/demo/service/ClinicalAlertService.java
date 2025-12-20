@@ -3,5 +3,6 @@ import com.example.demo.model.ClinicalAlert;
 import java.util.List;
 
 public interface clinicalAlertService{
-    ClinicalALert resolveAlert(Long id)
+    ClinicalALert resolveAlert(Long id);
+    List<ClinicalAlert>getAllAlerts();
 }

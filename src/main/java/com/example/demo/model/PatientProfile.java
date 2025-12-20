@@ -21,8 +21,6 @@ public class PatientProfile {
 
     private String fullName;
     private Integer age;
-
-    @Column(unique = true)
     private String email;
 
     private String surgeryType;
