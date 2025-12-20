@@ -10,12 +10,13 @@ public class JwtTokenProvider {
     private final String secret;
     private final long validityInMs;
 
+   
     public JwtTokenProvider(String secret, long validityInMs) {
         this.secret = secret;
         this.validityInMs = validityInMs;
     }
 
-    public String createToken(String email) {
+    public String generateToken(String email) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + validityInMs);
 
