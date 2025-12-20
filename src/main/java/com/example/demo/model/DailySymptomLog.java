@@ -1,29 +1,21 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class DailySymptomLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private PatientProfile patient;
-
     private LocalDate logDate;
-    private Integer painLevel;
-    private Integer mobilityLevel;
-    private Integer fatigueLevel;
-    private String notes;
-    private LocalDateTime submittedAt;
+
+    // Getters & Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public LocalDate getLogDate() { return logDate; }
+    public void setLogDate(LocalDate logDate) { this.logDate = logDate; }
 }
