@@ -1,12 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
 import com.example.demo.dto.RegisterRequest;
+import com.example.demo.model.AppUser;
 
 public interface AuthService {
 
-    AuthResponse register(RegisterRequest request);
+    AppUser registerUser(RegisterRequest request);
 
-    AuthResponse login(AuthRequest request);
+    String authenticate(AuthRequest request);
 }
