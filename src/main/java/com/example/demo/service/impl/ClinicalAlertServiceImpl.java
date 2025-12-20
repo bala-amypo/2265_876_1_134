@@ -3,36 +3,33 @@ package com.example.demo.service.impl;
 import com.example.demo.model.ClinicalAlert;
 import com.example.demo.repository.ClinicalAlertRepository;
 import com.example.demo.service.ClinicalAlertService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
 
-    private final ClinicalAlertRepository repo;
+    private final ClinicalAlertRepository alertRepository;
 
-    public ClinicalAlertServiceImpl(ClinicalAlertRepository repo) {
-        this.repo = repo;
+    public ClinicalAlertServiceImpl(ClinicalAlertRepository alertRepository) {
+        this.alertRepository = alertRepository;
     }
 
-    public ClinicalAlert createAlert(ClinicalAlert alert) {
-        alert.setResolved(false);
-        return repo.save(alert);
+    @Override
+    public ClinicalAlert resolveAlert(Long id) {
+        Optional<ClinicalAlert> optionalAlert = alertRepository.findById(id);
+        if (optionalAlert.isPresent()) {
+            ClinicalAlert alert = optionalAlert.get();
+            alert.setResolved(true); // make sure your entity has this setter
+            return alertRepository.save(alert);
+        }
+        return null;
     }
 
-    public List<ClinicalAlert> getAlertsByPatient(Long patientId) {
-        return repo.findByPatientId(patientId);
-    }
-
-    public void resolveAlert(Long alertId) {
-        ClinicalAlert alert = repo.findById(alertId)
-                .orElseThrow(() ->
-                        new RuntimeException("Alert not found"));
-
-        alert.setResolved(true);
-        repo.save(alert);
-    }
-
+    @Override
     public List<ClinicalAlert> getAllAlerts() {
-        return repo.findAll();
+        return alertRepository.findAll();
     }
 }
