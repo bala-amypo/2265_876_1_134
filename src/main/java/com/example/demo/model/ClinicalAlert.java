@@ -1,61 +1,31 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
-public class PatientProfile {
+public class ClinicalAlert {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String email;
-    private boolean active;
+    private String alertType;
+    private boolean resolved;
 
-    // Default constructor
-    public PatientProfile() {}
+    // constructor, getters, setters
+    public ClinicalAlert() {}
 
-    // All-args constructor
-    public PatientProfile(String name, String email, boolean active) {
-        this.name = name;
-        this.email = email;
-        this.active = active;
+    public ClinicalAlert(String alertType, boolean resolved) {
+        this.alertType = alertType;
+        this.resolved = resolved;
     }
 
-    // Getters and setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getAlertType() { return alertType; }
+    public void setAlertType(String alertType) { this.alertType = alertType; }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+    public boolean isResolved() { return resolved; }
+    public void setResolved(boolean resolved) { this.resolved = resolved; }
 }
