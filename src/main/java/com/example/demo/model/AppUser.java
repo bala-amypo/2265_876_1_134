@@ -3,6 +3,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "app_user")
 public class AppUser {
 
     @Id
@@ -13,7 +14,7 @@ public class AppUser {
     private String password;
     private String role;
 
-    // Getters & Setters
+    // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
