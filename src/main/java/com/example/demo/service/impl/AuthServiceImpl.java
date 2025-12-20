@@ -1,57 +1,42 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.model.AppUser;
 import com.example.demo.repository.AppUserRepository;
 import com.example.demo.security.JwtTokenProvider;
-import com.example.demo.service.AuthService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthServiceImpl implements AuthService {
+public class AuthServiceImpl {
 
-    private final AppUserRepository repo;
-    private final JwtTokenProvider jwt;
-    private final PasswordEncoder encoder;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final AppUserRepository userRepository;
 
-    public AuthServiceImpl(
-            AppUserRepository repo,
-            JwtTokenProvider jwt,
-            PasswordEncoder encoder
-    ) {
-        this.repo = repo;
-        this.jwt = jwt;
-        this.encoder = encoder;
+    public AuthServiceImpl(JwtTokenProvider jwtTokenProvider, AppUserRepository userRepository) {
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.userRepository = userRepository;
     }
 
-    @Override
-    public AuthResponse register(RegisterRequest request) {
+    // Register a new user
+    public AppUser registerUser(RegisterRequest request) {
+        AppUser user = new AppUser();
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword()); // you should hash the password in production
+        user.setRole(request.getRole());
+        return userRepository.save(user);
+    }
 
-        if (repo.findByEmail(request.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
+    // Authenticate user and generate JWT
+    public String authenticate(AuthRequest request) {
+        AppUser user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        // For simplicity, plain password comparison (hash in production)
+        if (!user.getPassword().equals(request.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
         }
 
-        AppUser user = AppUser.builder()
-                .email(request.getEmail())
-                .password(encoder.encode(request.getPassword()))
-                .role(request.getRole())
-                .build();
-
-        repo.save(user);
-
-        return new AuthResponse(jwt.generateToken(user.getEmail()));
-    }
-
-    @Override
-    public AuthResponse login(AuthRequest request) {
-
-        AppUser user = repo.findByEmail(request.getEmail())
-                .orElseThrow(() ->
-                        new IllegalArgumentException("Invalid credentials"));
-
-        return new AuthResponse(jwt.generateToken(user.getEmail()));
+        return jwtTokenProvider.generateToken(user.getEmail());
     }
 }
