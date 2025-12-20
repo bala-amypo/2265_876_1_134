@@ -1,37 +1,15 @@
-npackage com.example.demo.controller;
+package com.example.demo.controller;
 
-import com.example.demo.model.RecoveryCurveProfile;
-import com.example.demo.service.RecoveryCurveService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/recovery-curves")
-@Tag(name = "Recovery Curves")
+@RequestMapping("/recovery-curve")
 public class RecoveryCurveController {
 
-    private final RecoveryCurveService service;
-
-    public RecoveryCurveController(RecoveryCurveService service) {
-        this.service = service;
-    }
-
-    @PostMapping
-    public RecoveryCurveProfile create(@RequestBody RecoveryCurveProfile profile) {
-        return service.createCurveEntry(profile);
-    }
-
-    @GetMapping("/surgery/{surgeryType}")
-    public List<RecoveryCurveProfile> getBySurgery(
-            @PathVariable String surgeryType
-    ) {
-        return service.getCurveForSurgery(surgeryType);
-    }
-
-    @GetMapping
-    public List<RecoveryCurveProfile> getAll() {
-        return service.getAllCurves();
+    @GetMapping("/status")
+    public String getStatus() {
+        return "Recovery Curve Service is running";
     }
 }
