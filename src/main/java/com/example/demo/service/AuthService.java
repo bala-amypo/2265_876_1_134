@@ -5,8 +5,6 @@ import com.example.demo.dto.RegisterRequest;
 import com.example.demo.model.AppUser;
 
 public interface AuthService {
-
-    AppUser registerUser(RegisterRequest request);
-
-    String authenticate(AuthRequest request);
+    AppUser register(RegisterRequest request);  // match controller
+    String login(AuthRequest request);          // match controller
 }

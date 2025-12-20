@@ -20,20 +20,20 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AppUser registerUser(RegisterRequest request) {
+    public AppUser register(RegisterRequest request) {
         AppUser user = new AppUser();
-        user.setEmail(request.email());
-        user.setPassword(request.password()); // hash in production!
-        user.setRole(request.role());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
         return userRepository.save(user);
     }
 
     @Override
-    public String authenticate(AuthRequest request) {
-        AppUser user = userRepository.findByEmail(request.email())
+    public String login(AuthRequest request) {
+        AppUser user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!user.getPassword().equals(request.password())) {
+        if (!user.getPassword().equals(request.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
