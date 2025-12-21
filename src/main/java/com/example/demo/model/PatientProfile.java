@@ -1,35 +1,57 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "patient_profiles")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PatientProfile {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(unique = true)
+    @NotBlank
+    private String patientId;
+
+    @NotBlank
+    private String fullName;
+
+    @NotNull
+    @Positive
+    private Integer age;
+
+    @Column(unique = true)
+    @Email
+    @NotBlank
     private String email;
-    private boolean active;
 
-    public PatientProfile() {}
+    @NotBlank
+    private String surgeryType;
 
-    public PatientProfile(String name, String email, boolean active) {
-        this.name = name;
+    @Builder.Default
+    private Boolean active = true;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    public PatientProfile(String patientId, String fullName, Integer age, String email, String surgeryType) {
+        this.patientId = patientId;
+        this.fullName = fullName;
+        this.age = age;
         this.email = email;
-        this.active = active;
+        this.surgeryType = surgeryType;
+        this.active = true;
     }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
 }

@@ -1,29 +1,46 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "app_user")
+@Table(name = "app_users")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AppUser {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    @Email
+    @NotBlank
     private String email;
+
+    @NotBlank
+    @Size(min = 6)
     private String password;
-    private String role;
 
-    // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @NotBlank
+    private String fullName;
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private UserRole role;
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public AppUser(String email, String password, String fullName, UserRole role) {
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+        this.role = role;
+    }
 }

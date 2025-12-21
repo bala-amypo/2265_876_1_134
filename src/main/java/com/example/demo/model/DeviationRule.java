@@ -1,20 +1,48 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "deviation_rules")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DeviationRule {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double thresholdDeviation;
+    private String ruleCode;
 
-    // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @NotBlank
+    private String surgeryType;
 
-    public Double getThresholdDeviation() { return thresholdDeviation; }
-    public void setThresholdDeviation(Double thresholdDeviation) { this.thresholdDeviation = thresholdDeviation; }
+    @NotBlank
+    private String parameter;
+
+    @NotNull
+    @Positive
+    private Integer threshold;
+
+    @NotBlank
+    private String severity;
+
+    @Builder.Default
+    private Boolean active = true;
+
+    public DeviationRule(String surgeryType, String parameter, Integer threshold, String severity) {
+        this.surgeryType = surgeryType;
+        this.parameter = parameter;
+        this.threshold = threshold;
+        this.severity = severity;
+        this.active = true;
+    }
 }

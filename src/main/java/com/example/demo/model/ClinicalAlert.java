@@ -1,48 +1,55 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDate;
 
 @Entity
-public class ClinicalAlert {
-
+@Table(name = "clinical_alert_records")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ClinicalAlertRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // ✅ THIS FIELD WAS MISSING
-    @Column(nullable = false)
+    @NotNull
     private Long patientId;
 
+    @NotNull
+    private Long logId;
+
+    @NotBlank
+    private String alertType;
+
+    @NotBlank
+    private String severity;
+
+    @Lob
+    @NotBlank
     private String message;
-    private boolean resolved;
 
-    // ===== Getters & Setters =====
+    @Builder.Default
+    private Boolean resolved = false;
 
-    public Long getId() {
-        return id;
-    }
+    @CreationTimestamp
+    private LocalDate alertDate;
 
-    public Long getPatientId() {
-        return patientId;
-    }
-
-    public void setPatientId(Long patientId) {
+    public ClinicalAlertRecord(Long patientId, Long logId, String alertType, String severity, String message) {
         this.patientId = patientId;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
+        this.logId = logId;
+        this.alertType = alertType;
+        this.severity = severity;
         this.message = message;
-    }
-
-    public boolean isResolved() {
-        return resolved;
-    }
-
-    public void setResolved(boolean resolved) {
-        this.resolved = resolved;
+        this.resolved = false;
     }
 }
