@@ -13,11 +13,11 @@ public class AuthServiceImpl implements AuthService {
     private final AppUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthServiceImpl(AppUserRepository userRepository,
-                           PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    public AuthServiceImpl(AppUserRepository userRepository,PasswordEncoder passwordEncoder) {
+    this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
+}
+
 
     @Override
     public AppUser login(AuthRequest request) {
