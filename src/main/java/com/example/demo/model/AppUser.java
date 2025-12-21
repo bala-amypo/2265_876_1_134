@@ -43,4 +43,56 @@ public class AppUser {
         this.fullName = fullName;
         this.role = role;
     }
+
+    // Manual getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
+    
+    public UserRole getRole() { return role; }
+    public void setRole(UserRole role) { this.role = role; }
+
+    // Static builder method
+    public static AppUserBuilder builder() {
+        return new AppUserBuilder();
+    }
+
+    public static class AppUserBuilder {
+        private String email;
+        private String password;
+        private String fullName;
+        private UserRole role;
+        
+        public AppUserBuilder email(String email) {
+            this.email = email;
+            return this;
+        }
+        
+        public AppUserBuilder password(String password) {
+            this.password = password;
+            return this;
+        }
+        
+        public AppUserBuilder fullName(String fullName) {
+            this.fullName = fullName;
+            return this;
+        }
+        
+        public AppUserBuilder role(UserRole role) {
+            this.role = role;
+            return this;
+        }
+        
+        public AppUser build() {
+            return new AppUser(email, password, fullName, role);
+        }
+    }
 }
