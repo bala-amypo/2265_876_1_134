@@ -11,30 +11,30 @@ import java.util.Optional;
 
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
-    private final ClinicalAlertRepository clinicalAlertRecordRepository;
+    private final ClinicalAlertRepository clinicalAlertRepository;
 
-    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository clinicalAlertRecordRepository) {
-        this.clinicalAlertRecordRepository = clinicalAlertRecordRepository;
+    public ClinicalAlertServiceImpl(ClinicalAlertRepository clinicalAlertRepository) {
+        this.clinicalAlertRepository = clinicalAlertRepository;
     }
 
     @Override
-    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
-        return clinicalAlertRecordRepository.save(alert);
+    public ClinicalAlert createAlert(ClinicalAlert alert) {
+        return clinicalAlertRepository.save(alert);
     }
 
     @Override
-    public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
-        return clinicalAlertRecordRepository.findByPatientId(patientId);
+    public List<ClinicalAlert> getAlertsByPatient(Long patientId) {
+        return clinicalAlertRepository.findByPatientId(patientId);
     }
 
     @Override
-    public Optional<ClinicalAlertRecord> getAlertById(Long id) {
-        return clinicalAlertRecordRepository.findById(id);
+    public Optional<ClinicalAlert> getAlertById(Long id) {
+        return clinicalAlertRepository.findById(id);
     }
 
     @Override
     public ClinicalAlert resolveAlert(Long alertId) {
-        ClinicalAlertRecord alert = clinicalAlertRepository.findById(alertId)
+        ClinicalAlert alert = clinicalAlertRepository.findById(alertId)
                 .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
         
         alert.setResolved(true);
@@ -42,7 +42,7 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     }
 
     @Override
-    public List<ClinicalAlertRecord> getAllAlerts() {
-        return clinicalAlertRecordRepository.findAll();
+    public List<ClinicalAlert> getAllAlerts() {
+        return clinicalAlertRepository.findAll();
     }
 }
