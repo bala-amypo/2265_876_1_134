@@ -61,7 +61,7 @@ public class SecurityConfig {
             .and()
             .authenticationProvider(authenticationProvider())
             .authorizeRequests()
-                .antMatchers("/auth/**", "/status", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .antMatchers("/auth/**", "/status", "/swagger-ui/**", "/v3/api-docs/**").permitAll();
                 .anyRequest().permitAll();
 
         return http.build();
