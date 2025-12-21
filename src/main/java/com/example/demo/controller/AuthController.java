@@ -14,7 +14,8 @@ public class AuthController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthController(AuthService authService, JwtTokenProvider jwtTokenProvider) {
+    public AuthController(AuthService authService,
+                          JwtTokenProvider jwtTokenProvider) {
         this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
@@ -22,15 +23,20 @@ public class AuthController {
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
 
-        // validate user
+        // ✅ get user
         AppUser user = authService.login(request);
 
-        // ✅ PASS EMAIL + ROLE
+        // ✅ generate token
         String token = jwtTokenProvider.generateToken(
                 user.getEmail(),
                 user.getRole()
         );
 
-        return new AuthResponse(token);
+        // ✅ MATCH CONSTRUCTOR
+        return new AuthResponse(
+                token,
+                user.getEmail(),
+                user.getRole()
+        );
     }
 }
