@@ -5,6 +5,5 @@ import java.util.List;
 
 public interface ClinicalAlertService {
 
-    List<ClinicalAlert> getAlertsByPatient(Long patientId);
+    List<ClinicalAlert> getAlertsByPatientId(Long patientId);
 }
-
