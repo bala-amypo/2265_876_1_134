@@ -38,7 +38,7 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
                 .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
         
         alert.setResolved(true);
-        return clinicalAlertRecordRepository.save(alert);
+        return clinicalAlertRepository.save(alert);
     }
 
     @Override

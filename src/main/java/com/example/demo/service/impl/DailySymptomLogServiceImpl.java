@@ -123,7 +123,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
             }
             
             if (alertTriggered) {
-                ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
+                ClinicalAlert alert = ClinicalAlert.builder()
                         .patientId(log.getPatientId())
                         .logId(log.getId())
                         .alertType(rule.getParameter().toUpperCase() + "_ALERT")
