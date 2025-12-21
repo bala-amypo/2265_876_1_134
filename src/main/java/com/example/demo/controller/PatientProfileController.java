@@ -1,46 +1,52 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.PatientProfile;
-import com.example.demo.repository.PatientProfileRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.service.PatientProfileService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/api/patient")
+@RequestMapping("/api/patients")
+@Tag(name = "Patient Profiles", description = "Patient profile management")
 public class PatientProfileController {
+    private final PatientProfileService patientProfileService;
 
-    @Autowired
-    private PatientProfileRepository patientProfileRepository;
-
-    @GetMapping("/{id}")
-    public PatientProfile getPatient(@PathVariable Long id) {
-        // Correct handling of Optional
-        return patientProfileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Patient not found with id: " + id));
+    public PatientProfileController(PatientProfileService patientProfileService) {
+        this.patientProfileService = patientProfileService;
     }
 
     @PostMapping
-    public PatientProfile createPatient(@RequestBody PatientProfile patient) {
-        return patientProfileRepository.save(patient);
+    public ResponseEntity<PatientProfile> createPatient(@Valid @RequestBody PatientProfile patient) {
+        PatientProfile created = patientProfileService.createPatient(patient);
+        return ResponseEntity.ok(created);
     }
 
-    @PutMapping("/{id}")
-    public PatientProfile updatePatient(@PathVariable Long id, @RequestBody PatientProfile patientDetails) {
-        PatientProfile patient = patientProfileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Patient not found with id: " + id));
-
-        patient.setName(patientDetails.getName());
-        patient.setEmail(patientDetails.getEmail());
-        patient.setActive(patientDetails.isActive());
-
-        return patientProfileRepository.save(patient);
+    @GetMapping("/{id}")
+    public ResponseEntity<PatientProfile> getPatientById(@PathVariable Long id) {
+        PatientProfile patient = patientProfileService.getPatientById(id);
+        return ResponseEntity.ok(patient);
     }
 
-    @DeleteMapping("/{id}")
-    public String deletePatient(@PathVariable Long id) {
-        PatientProfile patient = patientProfileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Patient not found with id: " + id));
-        patientProfileRepository.delete(patient);
-        return "Deleted patient with id: " + id;
+    @GetMapping
+    public ResponseEntity<List<PatientProfile>> getAllPatients() {
+        List<PatientProfile> patients = patientProfileService.getAllPatients();
+        return ResponseEntity.ok(patients);
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<PatientProfile> updatePatientStatus(@PathVariable Long id, @RequestParam boolean active) {
+        PatientProfile updated = patientProfileService.updatePatientStatus(id, active);
+        return ResponseEntity.ok(updated);
+    }
+
+    @GetMapping("/lookup/{patientId}")
+    public ResponseEntity<PatientProfile> lookupByPatientId(@PathVariable String patientId) {
+        Optional<PatientProfile> patient = patientProfileService.findByPatientId(patientId);
+        return patient.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 }
