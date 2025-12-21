@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Service
 public class PatientProfileServiceImpl implements PatientProfileService {
-
     private final PatientProfileRepository patientProfileRepository;
 
     public PatientProfileServiceImpl(PatientProfileRepository patientProfileRepository) {
@@ -27,8 +26,9 @@ public class PatientProfileServiceImpl implements PatientProfileService {
     }
 
     @Override
-    public Optional<PatientProfile> getPatientById(Long id) {
-        return patientProfileRepository.findById(id);
+    public PatientProfile getPatientById(Long id) {
+        return patientProfileRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
     }
 
     @Override
@@ -38,8 +38,7 @@ public class PatientProfileServiceImpl implements PatientProfileService {
 
     @Override
     public PatientProfile updatePatientStatus(Long id, boolean active) {
-        PatientProfile patient = patientProfileRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
+        PatientProfile patient = getPatientById(id);
         patient.setActive(active);
         return patientProfileRepository.save(patient);
     }
