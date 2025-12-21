@@ -7,22 +7,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/alerts")
+@RequestMapping("/alerts")
 public class ClinicalAlertController {
 
-    private final ClinicalAlertService alertService;
+    private final ClinicalAlertService service;
 
-    public ClinicalAlertController(ClinicalAlertService alertService) {
-        this.alertService = alertService;
+    public ClinicalAlertController(ClinicalAlertService service) {
+        this.service = service;
     }
 
-    @GetMapping
-    public List<ClinicalAlert> getAllAlerts() {
-        return alertService.getAllAlerts();
-    }
-
-    @PostMapping("/resolve/{id}")
-    public ClinicalAlert resolveAlert(@PathVariable Long id) {
-        return alertService.resolveAlert(id);
+    @GetMapping("/patient/{patientId}")
+    public List<ClinicalAlert> getAlerts(@PathVariable Long patientId) {
+        return service.getAlertsByPatient(patientId);
     }
 }
