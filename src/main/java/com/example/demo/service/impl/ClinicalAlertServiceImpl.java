@@ -1,8 +1,8 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.ClinicalAlertRecord;
-import com.example.demo.repository.ClinicalAlertRecordRepository;
+import com.example.demo.model.ClinicalAlert;
+import com.example.demo.repository.ClinicalAlertRepository;
 import com.example.demo.service.ClinicalAlertService;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
-    private final ClinicalAlertRecordRepository clinicalAlertRecordRepository;
+    private final ClinicalAlertRepository clinicalAlertRecordRepository;
 
     public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository clinicalAlertRecordRepository) {
         this.clinicalAlertRecordRepository = clinicalAlertRecordRepository;
@@ -33,8 +33,8 @@ public class ClinicalAlertServiceImpl implements ClinicalAlertService {
     }
 
     @Override
-    public ClinicalAlertRecord resolveAlert(Long alertId) {
-        ClinicalAlertRecord alert = clinicalAlertRecordRepository.findById(alertId)
+    public ClinicalAlert resolveAlert(Long alertId) {
+        ClinicalAlertRecord alert = clinicalAlertRepository.findById(alertId)
                 .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
         
         alert.setResolved(true);

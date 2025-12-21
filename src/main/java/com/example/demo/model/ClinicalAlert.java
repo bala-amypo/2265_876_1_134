@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClinicalAlertRecord {
+public class ClinicalAlert {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,7 +44,7 @@ public class ClinicalAlertRecord {
     @CreationTimestamp
     private LocalDate alertDate;
 
-    public ClinicalAlertRecord(Long patientId, Long logId, String alertType, String severity, String message) {
+    public ClinicalAlert(Long patientId, Long logId, String alertType, String severity, String message) {
         this.patientId = patientId;
         this.logId = logId;
         this.alertType = alertType;

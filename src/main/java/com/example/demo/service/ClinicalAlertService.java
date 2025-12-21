@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.ClinicalAlertRecord;
+import com.example.demo.model.ClinicalAlert;
 
 import java.util.List;
 import java.util.Optional;
