@@ -1,8 +1,8 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClinicalAlert {
+public class ClinicalAlertRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,7 +44,7 @@ public class ClinicalAlert {
     @CreationTimestamp
     private LocalDate alertDate;
 
-    public ClinicalAlert(Long patientId, Long logId, String alertType, String severity, String message) {
+    public ClinicalAlertRecord(Long patientId, Long logId, String alertType, String severity, String message) {
         this.patientId = patientId;
         this.logId = logId;
         this.alertType = alertType;
