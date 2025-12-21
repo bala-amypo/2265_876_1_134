@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.PatientProfile;
 import com.example.demo.service.PatientProfileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
