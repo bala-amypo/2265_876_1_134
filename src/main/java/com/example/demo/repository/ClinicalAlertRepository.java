@@ -8,9 +8,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface ClinicalAlertRepository extends JpaRepository<ClinicalAlertRecord, Long> {
-    List<ClinicalAlertRecord> findByPatientId(Long patientId);
-    List<ClinicalAlertRecord> findByResolved(Boolean resolved);
-    List<ClinicalAlertRecord> findBySeverity(String severity);
-    List<ClinicalAlertRecord> findByAlertDateBetween(LocalDate startDate, LocalDate endDate);
+public interface ClinicalAlertRepository extends JpaRepository<ClinicalAlert, Long> {
+    List<ClinicalAlert> findByPatientId(Long patientId);
+    List<ClinicalAlert> findByResolved(Boolean resolved);
+    List<ClinicalAlert> findBySeverity(String severity);
+    List<ClinicalAlert> findByAlertDateBetween(LocalDate startDate, LocalDate endDate);
 }

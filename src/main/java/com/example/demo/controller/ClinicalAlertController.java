@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.ClinicalAlertRecord;
+import com.example.demo.model.ClinicalAlert;
 import com.example.demo.service.ClinicalAlertService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -21,8 +21,8 @@ public class ClinicalAlertController {
     }
 
     @PostMapping
-    public ResponseEntity<ClinicalAlertRecord> createAlert(@Valid @RequestBody ClinicalAlertRecord alert) {
-        ClinicalAlertRecord created = clinicalAlertService.createAlert(alert);
+    public ResponseEntity<ClinicalAlert> createAlert(@Valid @RequestBody ClinicalAlert alert) {
+        ClinicalAlert created = clinicalAlertService.createAlert(alert);
         return ResponseEntity.ok(created);
     }
 
