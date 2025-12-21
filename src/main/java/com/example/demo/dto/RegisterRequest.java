@@ -1,20 +1,27 @@
 package com.example.demo.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegisterRequest {
+    @NotBlank
+    @Email
     private String email;
+
+    @NotBlank
+    @Size(min = 6)
     private String password;
+
+    @NotBlank
+    private String fullName;
+
+    @NotBlank
     private String role;
-
-    // Constructor
-    public RegisterRequest() {}
-    public RegisterRequest(String email, String password, String role){
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
-
-    // Getters
-    public String getEmail() { return email; }
-    public String getPassword() { return password; }
-    public String getRole() { return role; }
 }
