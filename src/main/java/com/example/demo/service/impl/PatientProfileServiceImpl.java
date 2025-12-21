@@ -44,6 +44,25 @@ public class PatientProfileServiceImpl implements PatientProfileService {
     }
 
     @Override
+    public PatientProfile updatePatient(Long id, PatientProfile patient) {
+        PatientProfile existingPatient = getPatientById(id);
+        existingPatient.setFullName(patient.getFullName());
+        existingPatient.setAge(patient.getAge());
+        existingPatient.setEmail(patient.getEmail());
+        existingPatient.setSurgeryType(patient.getSurgeryType());
+        existingPatient.setActive(patient.getActive());
+        return patientProfileRepository.save(existingPatient);
+    }
+
+    @Override
+    public void deletePatient(Long id) {
+        if (!patientProfileRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Patient not found");
+        }
+        patientProfileRepository.deleteById(id);
+    }
+
+    @Override
     public Optional<PatientProfile> findByPatientId(String patientId) {
         return patientProfileRepository.findByPatientId(patientId);
     }

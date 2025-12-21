@@ -7,6 +7,7 @@ import com.example.demo.model.AppUser;
 
 public interface AuthService {
     AuthResponse register(RegisterRequest request);
+    AppUser register(AppUser user);
     AuthResponse login(AuthRequest request);
     AppUser findByEmail(String email);
 }

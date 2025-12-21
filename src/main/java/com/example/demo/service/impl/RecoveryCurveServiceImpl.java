@@ -22,12 +22,27 @@ public class RecoveryCurveServiceImpl implements RecoveryCurveService {
     }
 
     @Override
+    public RecoveryCurveProfile createProfile(RecoveryCurveProfile profile) {
+        return recoveryCurveProfileRepository.save(profile);
+    }
+
+    @Override
     public List<RecoveryCurveProfile> getCurveForSurgery(String surgeryType) {
-        return recoveryCurveProfileRepository.findBySurgeryTypeOrderByDayNumberAsc(surgeryType);
+        return recoveryCurveProfileRepository.findBySurgeryType(surgeryType);
+    }
+
+    @Override
+    public List<RecoveryCurveProfile> getProfilesBySurgeryType(String surgeryType) {
+        return recoveryCurveProfileRepository.findBySurgeryType(surgeryType);
     }
 
     @Override
     public List<RecoveryCurveProfile> getAllCurves() {
+        return recoveryCurveProfileRepository.findAll();
+    }
+
+    @Override
+    public List<RecoveryCurveProfile> getAllProfiles() {
         return recoveryCurveProfileRepository.findAll();
     }
 

@@ -33,6 +33,19 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
     @Override
     public DailySymptomLog recordSymptomLog(DailySymptomLog log) {
+        return createLog(log);
+    }
+
+    @Override
+    public DailySymptomLog createLog(DailySymptomLog log) {
+        // Validate date is not in future
+        if (log.getLogDate().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("future date");
+        }
+        return dailySymptomLogRepository.save(log);
+    }
+
+    private DailySymptomLog recordSymptomLogWithValidation(DailySymptomLog log) {
         // Validate patient exists
         PatientProfile patient = patientProfileRepository.findById(log.getPatientId())
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
@@ -57,10 +70,11 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
     @Override
     public List<DailySymptomLog> getLogsByPatient(Long patientId) {
-        // Validate patient exists
-        patientProfileRepository.findById(patientId)
-                .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
-        
+        return dailySymptomLogRepository.findByPatientId(patientId);
+    }
+
+    @Override
+    public List<DailySymptomLog> getLogsByPatientId(Long patientId) {
         return dailySymptomLogRepository.findByPatientId(patientId);
     }
 
@@ -123,7 +137,7 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
             }
             
             if (alertTriggered) {
-                ClinicalAlert alert = ClinicalAlert.builder()
+                ClinicalAlertRecord alert = ClinicalAlertRecord.builder()
                         .patientId(log.getPatientId())
                         .logId(log.getId())
                         .alertType(rule.getParameter().toUpperCase() + "_ALERT")

@@ -50,6 +50,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public AppUser register(AppUser user) {
+        if (appUserRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+        return appUserRepository.save(user);
+    }
+
+    @Override
     public AuthResponse login(AuthRequest request) {
         AppUser user = appUserRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));

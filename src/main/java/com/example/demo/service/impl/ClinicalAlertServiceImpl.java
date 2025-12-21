@@ -1,8 +1,8 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.ClinicalAlert;
-import com.example.demo.repository.ClinicalAlertRepository;
+import com.example.demo.model.ClinicalAlertRecord;
+import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.service.ClinicalAlertService;
 import org.springframework.stereotype.Service;
 
@@ -11,38 +11,43 @@ import java.util.Optional;
 
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
-    private final ClinicalAlertRepository clinicalAlertRepository;
+    private final ClinicalAlertRecordRepository clinicalAlertRecordRepository;
 
-    public ClinicalAlertServiceImpl(ClinicalAlertRepository clinicalAlertRepository) {
-        this.clinicalAlertRepository = clinicalAlertRepository;
+    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository clinicalAlertRecordRepository) {
+        this.clinicalAlertRecordRepository = clinicalAlertRecordRepository;
     }
 
     @Override
-    public ClinicalAlert createAlert(ClinicalAlert alert) {
-        return clinicalAlertRepository.save(alert);
+    public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
+        return clinicalAlertRecordRepository.save(alert);
     }
 
     @Override
-    public List<ClinicalAlert> getAlertsByPatient(Long patientId) {
-        return clinicalAlertRepository.findByPatientId(patientId);
+    public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
+        return clinicalAlertRecordRepository.findByPatientId(patientId);
     }
 
     @Override
-    public Optional<ClinicalAlert> getAlertById(Long id) {
-        return clinicalAlertRepository.findById(id);
+    public List<ClinicalAlertRecord> getAlertsByPatientId(Long patientId) {
+        return clinicalAlertRecordRepository.findByPatientId(patientId);
     }
 
     @Override
-    public ClinicalAlert resolveAlert(Long alertId) {
-        ClinicalAlert alert = clinicalAlertRepository.findById(alertId)
+    public Optional<ClinicalAlertRecord> getAlertById(Long id) {
+        return clinicalAlertRecordRepository.findById(id);
+    }
+
+    @Override
+    public ClinicalAlertRecord resolveAlert(Long alertId) {
+        ClinicalAlertRecord alert = clinicalAlertRecordRepository.findById(alertId)
                 .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
         
         alert.setResolved(true);
-        return clinicalAlertRepository.save(alert);
+        return clinicalAlertRecordRepository.save(alert);
     }
 
     @Override
-    public List<ClinicalAlert> getAllAlerts() {
-        return clinicalAlertRepository.findAll();
+    public List<ClinicalAlertRecord> getAllAlerts() {
+        return clinicalAlertRecordRepository.findAll();
     }
 }

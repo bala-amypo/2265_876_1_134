@@ -19,7 +19,7 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
 
     @Override
     public DeviationRule createRule(DeviationRule rule) {
-        if (rule.getThreshold() <= 0) {
+        if (rule.getThreshold() == null || rule.getThreshold() <= 0) {
             throw new IllegalArgumentException("Threshold must be");
         }
         return deviationRuleRepository.save(rule);
@@ -32,6 +32,11 @@ public class DeviationRuleServiceImpl implements DeviationRuleService {
 
     @Override
     public List<DeviationRule> getRulesBySurgery(String surgeryType) {
+        return deviationRuleRepository.findBySurgeryType(surgeryType);
+    }
+
+    @Override
+    public List<DeviationRule> getRulesBySurgeryType(String surgeryType) {
         return deviationRuleRepository.findBySurgeryType(surgeryType);
     }
 
