@@ -9,23 +9,40 @@ public class ClinicalAlert {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String alertType;
+    // ✅ THIS FIELD WAS MISSING
+    @Column(nullable = false)
+    private Long patientId;
+
+    private String message;
     private boolean resolved;
 
-    // constructor, getters, setters
-    public ClinicalAlert() {}
+    // ===== Getters & Setters =====
 
-    public ClinicalAlert(String alertType, boolean resolved) {
-        this.alertType = alertType;
-        this.resolved = resolved;
+    public Long getId() {
+        return id;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getPatientId() {
+        return patientId;
+    }
 
-    public String getAlertType() { return alertType; }
-    public void setAlertType(String alertType) { this.alertType = alertType; }
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
 
-    public boolean isResolved() { return resolved; }
-    public void setResolved(boolean resolved) { this.resolved = resolved; }
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isResolved() {
+        return resolved;
+    }
+
+    public void setResolved(boolean resolved) {
+        this.resolved = resolved;
+    }
 }
