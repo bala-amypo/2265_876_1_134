@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.PatientProfile;
 import com.example.demo.repository.PatientProfileRepository;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @Service
 public class PatientProfileServiceImpl implements PatientProfileService {
+
     private final PatientProfileRepository patientProfileRepository;
 
     public PatientProfileServiceImpl(PatientProfileRepository patientProfileRepository) {
@@ -20,7 +22,7 @@ public class PatientProfileServiceImpl implements PatientProfileService {
     @Override
     public PatientProfile createPatient(PatientProfile patient) {
         if (patientProfileRepository.findByEmail(patient.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new BadRequestException("Email already exists");
         }
         return patientProfileRepository.save(patient);
     }
@@ -46,11 +48,18 @@ public class PatientProfileServiceImpl implements PatientProfileService {
     @Override
     public PatientProfile updatePatient(Long id, PatientProfile patient) {
         PatientProfile existingPatient = getPatientById(id);
+
+        if (!existingPatient.getEmail().equals(patient.getEmail())
+                && patientProfileRepository.findByEmail(patient.getEmail()).isPresent()) {
+            throw new BadRequestException("Email already exists");
+        }
+
         existingPatient.setFullName(patient.getFullName());
         existingPatient.setAge(patient.getAge());
         existingPatient.setEmail(patient.getEmail());
         existingPatient.setSurgeryType(patient.getSurgeryType());
         existingPatient.setActive(patient.getActive());
+
         return patientProfileRepository.save(existingPatient);
     }
 
