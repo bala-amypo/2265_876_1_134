@@ -45,13 +45,4 @@ public class PatientProfile {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
-
-    public PatientProfile(String patientId, String fullName, Integer age, String email, String surgeryType) {
-        this.patientId = patientId;
-        this.fullName = fullName;
-        this.age = age;
-        this.email = email;
-        this.surgeryType = surgeryType;
-        this.active = true;
-    }
 }
