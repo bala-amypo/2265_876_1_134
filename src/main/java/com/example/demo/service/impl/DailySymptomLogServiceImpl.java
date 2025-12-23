@@ -29,11 +29,19 @@ public DailySymptomLog recordLog(DailySymptomLog log) {
 }
 
     @Override
-    public DailySymptomLog updateLog(Long id, DailySymptomLog log) {
-        DailySymptomLog existing = getLogById(id);
-        log.setId(existing.getId());
-        return repo.save(log);
-    }
+public DailySymptomLog updateLog(Long id, DailySymptomLog log) {
+
+    DailySymptomLog existing = getLogById(id);
+
+    existing.setLogDate(log.getLogDate());
+    existing.setPainLevel(log.getPainLevel());
+    existing.setMobilityLevel(log.getMobilityLevel());
+    existing.setFatigueLevel(log.getFatigueLevel());
+    existing.setNotes(log.getNotes());
+
+    return repo.save(existing);
+}
+
 
     @Override
     public List<DailySymptomLog> getLogsByPatient(Long patientid) {
