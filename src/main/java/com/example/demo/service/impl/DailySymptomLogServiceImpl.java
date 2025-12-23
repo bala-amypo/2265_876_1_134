@@ -11,13 +11,22 @@ import java.util.List;
 @Service
 public class DailySymptomLogServiceImpl implements DailySymptomLogService {
 
-    @Autowired
-    private DailySymptomLogRepository repo;
+   @Autowired
+private PatientProfileRepository patientRepo;
 
-    @Override
-    public DailySymptomLog recordLog(DailySymptomLog log) {
-        return repo.save(log);
-    }
+@Override
+public DailySymptomLog recordLog(DailySymptomLog log) {
+
+    Long patientId = log.getPatient().getId();
+
+    PatientProfile patient = patientRepo.findById(patientId)
+        .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
+
+    log.setPatient(patient); // 🔥 re-attach managed entity
+    log.setSubmittedAt(LocalDateTime.now());
+
+    return repo.save(log);
+}
 
     @Override
     public DailySymptomLog updateLog(Long id, DailySymptomLog log) {

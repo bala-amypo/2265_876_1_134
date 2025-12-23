@@ -17,9 +17,14 @@ public class DailySymptomLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @NotNull
-    private PatientProfile patient;
+    @ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "patient_id", nullable = false)
+@NotNull
+private PatientProfile patient;
+
+@CreationTimestamp
+private LocalDateTime submittedAt;
+
 
     @NotNull
     private LocalDate logDate;
