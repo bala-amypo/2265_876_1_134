@@ -1,48 +1,44 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "patient_profiles")
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class PatientProfile {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Patient ID is required")
+    @Size(min = 3, max = 20)
     @Column(unique = true)
-    @NotBlank
-    private String patientId;
-
-    @NotBlank
-    private String fullName;
+    private String patientid;
 
     @NotNull
+    @Size(min = 2, max = 50)
+    private String fullName;
+
     @Positive
+    @Max(120)
     private Integer age;
 
+    @Email(message = "Email is not valid")
+    @NotNull
     @Column(unique = true)
-    @Email
-    @NotBlank
     private String email;
 
-    @NotBlank
+    @NotNull
     private String surgeryType;
 
-    @Builder.Default
-    private Boolean active = true;
+    @NotNull
+    private Boolean active;
 
-    @CreationTimestamp
     private LocalDateTime createdAt;
 }
