@@ -1,52 +1,41 @@
-    package com.example.demo.controller;
+package com.example.demo.controller;
 
-    import com.example.demo.model.ClinicalAlertRecord;
-    import com.example.demo.service.ClinicalAlertService;
-    import io.swagger.v3.oas.annotations.tags.Tag;
-    import javax.validation.Valid;
-    import org.springframework.http.ResponseEntity;
-    import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import com.example.demo.service.ClinicalAlertService;
+import com.example.demo.model.ClinicalAlert;
+import jakarta.validation.Valid;
+import java.util.List;
 
-    import java.util.List;
-    import java.util.Optional;
+@RestController
+@RequestMapping("/api/alerts")
+public class ClinicalAlertController {
 
-    @RestController
-    @RequestMapping("/api/alerts")
-    @Tag(name = "Clinical Alerts", description = "Clinical alert management")
-    public class ClinicalAlertController {
-        private final ClinicalAlertService clinicalAlertService;
+    @Autowired
+    private ClinicalAlertService service;
 
-        public ClinicalAlertController(ClinicalAlertService clinicalAlertService) {
-            this.clinicalAlertService = clinicalAlertService;
-        }
-
-        @PostMapping
-        public ResponseEntity<ClinicalAlertRecord> createAlert(@Valid @RequestBody ClinicalAlertRecord alert) {
-            ClinicalAlertRecord created = clinicalAlertService.createAlert(alert);
-            return ResponseEntity.ok(created);
-        }
-
-        @PutMapping("/{id}/resolve")
-        public ResponseEntity<ClinicalAlertRecord> resolveAlert(@PathVariable Long id) {
-            ClinicalAlertRecord resolved = clinicalAlertService.resolveAlert(id);
-            return ResponseEntity.ok(resolved);
-        }
-
-        @GetMapping("/patient/{patientId}")
-        public ResponseEntity<List<ClinicalAlertRecord>> getAlertsForPatient(@PathVariable Long patientId) {
-            List<ClinicalAlertRecord> alerts = clinicalAlertService.getAlertsByPatient(patientId);
-            return ResponseEntity.ok(alerts);
-        }
-
-        @GetMapping("/{id}")
-        public ResponseEntity<ClinicalAlertRecord> getAlertById(@PathVariable Long id) {
-            Optional<ClinicalAlertRecord> alert = clinicalAlertService.getAlertById(id);
-            return alert.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-        }
-
-        @GetMapping
-        public ResponseEntity<List<ClinicalAlertRecord>> getAllAlerts() {
-            List<ClinicalAlertRecord> alerts = clinicalAlertService.getAllAlerts();
-            return ResponseEntity.ok(alerts);
-        }
+    @PostMapping
+    public ClinicalAlert triggerAlert(@Valid @RequestBody ClinicalAlert alert) {
+        return service.createAlert(alert);
     }
+
+    @PutMapping("/{id}/resolve")
+    public ClinicalAlert resolveAlert(@PathVariable Long id) {
+        return service.resolveAlert(id);
+    }
+
+    @GetMapping("/patient/{patientid}")
+    public List<ClinicalAlert> getAlertsByPatient(@PathVariable Long patientid) {
+        return service.getAlertsByPatient(patientid);
+    }
+
+    @GetMapping("/{id}")
+    public ClinicalAlert getAlertById(@PathVariable Long id) {
+        return service.getAlertById(id);
+    }
+
+    @GetMapping
+    public List<ClinicalAlert> getAllAlerts() {
+        return service.getAllAlerts();
+    }
+}
