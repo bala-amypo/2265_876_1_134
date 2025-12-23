@@ -19,13 +19,20 @@ public class PatientProfileServiceImpl implements PatientProfileService {
         this.patientProfileRepository = patientProfileRepository;
     }
 
-    @Override
-    public PatientProfile createPatient(PatientProfile patient) {
-        if (patientProfileRepository.findByEmail(patient.getEmail()).isPresent()) {
-            throw new BadRequestException("Email already exists");
-        }
-        return patientProfileRepository.save(patient);
+   @Override
+public PatientProfile createPatient(PatientProfile patient) {
+
+    if (patientProfileRepository.findByPatientId(patient.getPatientId()).isPresent()) {
+        throw new BadRequestException("Patient ID already exists");
     }
+
+    if (patientProfileRepository.findByEmail(patient.getEmail()).isPresent()) {
+        throw new BadRequestException("Email already exists");
+    }
+
+    return patientProfileRepository.save(patient);
+}
+
 
     @Override
     public PatientProfile getPatientById(Long id) {
