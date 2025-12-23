@@ -41,5 +41,5 @@ private LocalDateTime submittedAt;
     @Size(max = 255)
     private String notes;
 
-    private LocalDateTime submittedAt;
+    
 }
