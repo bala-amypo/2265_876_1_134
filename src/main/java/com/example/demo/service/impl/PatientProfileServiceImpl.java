@@ -5,11 +5,14 @@ import com.example.demo.model.PatientProfile;
 import com.example.demo.repository.PatientProfileRepository;
 import com.example.demo.service.PatientProfileService;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PatientProfileServiceImpl implements PatientProfileService {
+
     private final PatientProfileRepository patientProfileRepository;
 
     public PatientProfileServiceImpl(PatientProfileRepository patientProfileRepository) {
@@ -18,11 +21,12 @@ public class PatientProfileServiceImpl implements PatientProfileService {
 
     @Override
     public PatientProfile createPatient(PatientProfile profile) {
-        if (patientProfileRepository.findByEmail(profile.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
+        patientProfileRepository.findByEmail(profile.getEmail()).ifPresent(u -> { throw new IllegalArgumentException("Email already exists"); });
+        if (profile.getCreatedAt() == null) {
+            profile.setCreatedAt(LocalDateTime.now());
         }
-        if (patientProfileRepository.findByPatientId(profile.getPatientId()).isPresent()) {
-            throw new IllegalArgumentException("Patient ID already exists");
+        if (profile.getActive() == null) {
+            profile.setActive(true);
         }
         return patientProfileRepository.save(profile);
     }
@@ -40,9 +44,9 @@ public class PatientProfileServiceImpl implements PatientProfileService {
 
     @Override
     public PatientProfile updatePatientStatus(Long id, boolean active) {
-        PatientProfile patient = getPatientById(id);
-        patient.setActive(active);
-        return patientProfileRepository.save(patient);
+        PatientProfile profile = getPatientById(id);
+        profile.setActive(active);
+        return patientProfileRepository.save(profile);
     }
 
     @Override

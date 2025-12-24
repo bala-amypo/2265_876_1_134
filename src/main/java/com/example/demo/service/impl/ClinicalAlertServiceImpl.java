@@ -5,43 +5,44 @@ import com.example.demo.model.ClinicalAlertRecord;
 import com.example.demo.repository.ClinicalAlertRecordRepository;
 import com.example.demo.service.ClinicalAlertService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ClinicalAlertServiceImpl implements ClinicalAlertService {
-    private final ClinicalAlertRecordRepository clinicalAlertRecordRepository;
 
-    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository clinicalAlertRecordRepository) {
-        this.clinicalAlertRecordRepository = clinicalAlertRecordRepository;
+    private final ClinicalAlertRecordRepository repository;
+
+    public ClinicalAlertServiceImpl(ClinicalAlertRecordRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public ClinicalAlertRecord createAlert(ClinicalAlertRecord alert) {
-        return clinicalAlertRecordRepository.save(alert);
+        return repository.save(alert);
     }
 
     @Override
     public ClinicalAlertRecord resolveAlert(Long alertId) {
-        ClinicalAlertRecord alert = clinicalAlertRecordRepository.findById(alertId)
+        ClinicalAlertRecord record = repository.findById(alertId)
                 .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
-        
-        alert.setResolved(true);
-        return clinicalAlertRecordRepository.save(alert);
+        record.setResolved(true);
+        return repository.save(record);
     }
 
     @Override
     public List<ClinicalAlertRecord> getAlertsByPatient(Long patientId) {
-        return clinicalAlertRecordRepository.findByPatientId(patientId);
+        return repository.findByPatientId(patientId);
     }
 
     @Override
     public List<ClinicalAlertRecord> getAllAlerts() {
-        return clinicalAlertRecordRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public Optional<ClinicalAlertRecord> getAlertById(Long id) {
-        return clinicalAlertRecordRepository.findById(id);
+        return repository.findById(id);
     }
 }
