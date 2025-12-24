@@ -10,6 +10,7 @@ import com.example.demo.repository.PatientProfileRepository;
 import com.example.demo.service.ClinicalAlertService;
 import com.example.demo.service.DailySymptomLogService;
 import com.example.demo.service.RecoveryCurveService;
+import com.example.demo.service.DeviationRuleService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,15 +22,18 @@ public class DailySymptomLogServiceImpl implements DailySymptomLogService {
     private final DailySymptomLogRepository dailySymptomLogRepository;
     private final PatientProfileRepository patientProfileRepository;
     private final RecoveryCurveService recoveryCurveService;
+    private final DeviationRuleService deviationRuleService;
     private final ClinicalAlertService clinicalAlertService;
 
     public DailySymptomLogServiceImpl(DailySymptomLogRepository dailySymptomLogRepository,
                                       PatientProfileRepository patientProfileRepository,
                                       RecoveryCurveService recoveryCurveService,
+                                      DeviationRuleService deviationRuleService,
                                       ClinicalAlertService clinicalAlertService) {
         this.dailySymptomLogRepository = dailySymptomLogRepository;
         this.patientProfileRepository = patientProfileRepository;
         this.recoveryCurveService = recoveryCurveService;
+        this.deviationRuleService = deviationRuleService;
         this.clinicalAlertService = clinicalAlertService;
     }
 
