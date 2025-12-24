@@ -1,10 +1,11 @@
 package com.example.demo.dto;
 
 import com.example.demo.model.UserRole;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterRequest {

@@ -4,28 +4,29 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "deviation_rules")
-@Getter
-@Setter
-@Builder
+@Table(name = "deviation_rules", indexes = {
+        @Index(name = "idx_rule_code", columnList = "ruleCode", unique = true)
+})
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class DeviationRule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column(unique = true, nullable = false)
+
+    @Column(nullable = false, unique = true)
     private String ruleCode;
-    
-    @Column(nullable = false)
-    private String parameter;
-    
-    @Column(nullable = false)
+
+    private String parameter; // PAIN, MOBILITY, etc
+
     private Integer threshold;
-    
+
     private String severity;
-    
+
     @Builder.Default
     private Boolean active = true;
+
+    private String surgeryType; // for surgery specific rules
 }

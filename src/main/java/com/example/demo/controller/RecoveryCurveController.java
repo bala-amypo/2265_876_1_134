@@ -5,12 +5,14 @@ import com.example.demo.service.RecoveryCurveService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/recovery-curves")
-@Tag(name = "Recovery Curve", description = "Recovery curve management")
+@Tag(name = "Recovery Curves")
 public class RecoveryCurveController {
+
     private final RecoveryCurveService recoveryCurveService;
 
     public RecoveryCurveController(RecoveryCurveService recoveryCurveService) {
@@ -18,7 +20,7 @@ public class RecoveryCurveController {
     }
 
     @PostMapping
-    public ResponseEntity<RecoveryCurveProfile> createCurveEntry(@RequestBody RecoveryCurveProfile curve) {
+    public ResponseEntity<RecoveryCurveProfile> create(@RequestBody RecoveryCurveProfile curve) {
         return ResponseEntity.ok(recoveryCurveService.createCurveEntry(curve));
     }
 
@@ -28,7 +30,7 @@ public class RecoveryCurveController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RecoveryCurveProfile>> getAllCurves() {
+    public ResponseEntity<List<RecoveryCurveProfile>> getAll() {
         return ResponseEntity.ok(recoveryCurveService.getAllCurves());
     }
 }
