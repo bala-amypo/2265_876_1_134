@@ -46,11 +46,11 @@ public class SecurityConfig {
                  "/status", 
                  "/swagger-ui/**",
                   "/v3/api-docs/**",
-                  "/api/alerts",
-                  "/api/symptom-logs",
-                  "/api/deviation-rules",
-                  "/api/patients",
-                  
+                  "/api/alerts/**",
+                  "/api/symptom-logs/**",
+                  "/api/deviation-rules/**",
+                  "/api/patients/**",
+                  "/api/recovery-curves/**"
                   ).permitAll()
                 .anyRequest().authenticated()
             )
