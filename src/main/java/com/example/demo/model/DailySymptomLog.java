@@ -18,7 +18,7 @@ public class DailySymptomLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long patientId; // FK reference to PatientProfile.id
+    private String patientId; // FK reference to PatientProfile.id
 
     private LocalDate logDate;
 
