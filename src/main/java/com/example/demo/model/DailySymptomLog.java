@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @Builder
 public class DailySymptomLog {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long patientId; // FK reference to PatientProfile.id
